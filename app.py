@@ -1,16 +1,16 @@
-from flask import Flask
-app = Flask(__name__)
+import requests
+import config
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def get_weather(city, country_code):
+    api_key = config.API_KEY['appid']
+    response = requests.get(
+        f'http://api.openweathermap.org/data/2.5/weather?q={city},{country_code}&appid={api_key}')
+    result = response.json()
+    return result
 
 
-@app.route('/shah')
-def hello_shah():
-    return 'Hello shah sahab'
+your_city = input("Enter city e.g London >")
+code = input("Enter country code e.g UK >")
 
-
-if __name__ == '__main__':
-    app.run()
+print(get_weather(your_city, code))
